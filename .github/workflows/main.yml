@@ -9,6 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # ขั้นตอนเสริม: ช่วยให้เราเห็นว่าไฟล์ .csproj อยู่ที่ไหนกันแน่
+    - name: List files for debugging
+      run: dir /s External.csproj
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
@@ -16,21 +20,23 @@ jobs:
       uses: NuGet/setup-nuget@v1
 
     - name: Restore NuGet Packages
-      run: nuget restore  # ลบชื่อไฟล์ออก ให้มันหาเองอัตโนมัติ
+      # สั่งให้หาไฟล์ .sln หรือ .csproj แล้ว restore เองเลย
+      run: nuget restore
 
     - name: Build Solution
-      run: msbuild External.csproj /p:Configuration=Release /p:Platform="Any CPU"
-      
+      # ใช้ wildcard ** เพื่อให้มันหาไฟล์ External.csproj ไม่ว่าจะซ่อนอยู่ที่ไหน
+      run: msbuild **/External.csproj /p:Configuration=Release /p:Platform="Any CPU"
+
     - name: Prepare Artifact
-      # ย้ายไฟล์ทั้งหมดไปไว้ในโฟลเดอร์เดียวเพื่อให้โหลดง่าย
+      shell: pwsh
       run: |
-        mkdir build_output
-        copy bin\Release\*.exe build_output\
-        copy bin\Release\*.dll build_output\
-        copy bin\Release\*.config build_output\
+        if (!(Test-Path "build_output")) { mkdir build_output }
+        # งมหาไฟล์ .exe และ .dll จากทุก bin/Release ที่เจอ
+        Get-ChildItem -Path "**/bin/Release/" -Recurse -Include *.exe, *.dll, *.config | Copy-Item -Destination "build_output" -Force
+        ls build_output
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
       with:
-        name: External-FF-Program
+        name: External-App-Output
         path: build_output/
