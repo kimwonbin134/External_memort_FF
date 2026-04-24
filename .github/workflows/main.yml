@@ -16,12 +16,11 @@ jobs:
       uses: NuGet/setup-nuget@v1
 
     - name: Restore NuGet Packages
-      run: nuget restore External_memort_FF.sln
+      run: nuget restore  # ลบชื่อไฟล์ออก ให้มันหาเองอัตโนมัติ
 
     - name: Build Solution
-      # สั่ง Build เป็น Release และให้ copy ไฟล์ที่เกี่ยวข้องออกมาทั้งหมด
-      run: msbuild External_memort_FF.sln /p:Configuration=Release /p:Platform="Any CPU"
-
+      run: msbuild /p:Configuration=Release /p:Platform="Any CPU" # ไม่ต้องใส่ชื่อไฟล์ .sln
+      
     - name: Prepare Artifact
       # ย้ายไฟล์ทั้งหมดไปไว้ในโฟลเดอร์เดียวเพื่อให้โหลดง่าย
       run: |
