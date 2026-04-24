@@ -9,9 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # ขั้นตอนเสริม: ช่วยให้เราเห็นว่าไฟล์ .csproj อยู่ที่ไหนกันแน่
-    - name: List files for debugging
-      run: dir /s External.csproj
+    # ใช้คำสั่ง PowerShell หาไฟล์ .csproj ทั้งหมดในโปรเจกต์
+    - name: Check where is my project file
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path . -Filter *.csproj -Recurse | Select-Object FullName
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
@@ -20,18 +22,20 @@ jobs:
       uses: NuGet/setup-nuget@v1
 
     - name: Restore NuGet Packages
-      # สั่งให้หาไฟล์ .sln หรือ .csproj แล้ว restore เองเลย
       run: nuget restore
 
     - name: Build Solution
-      # ใช้ wildcard ** เพื่อให้มันหาไฟล์ External.csproj ไม่ว่าจะซ่อนอยู่ที่ไหน
-      run: msbuild **/External.csproj /p:Configuration=Release /p:Platform="Any CPU"
+      # สั่งให้หาไฟล์ .csproj ตัวไหนก็ได้แล้วรัน Build เลย
+      shell: pwsh
+      run: |
+        $projFile = (Get-ChildItem -Path . -Filter *.csproj -Recurse | Select-Object -First 1).FullName
+        echo "Building project: $projFile"
+        msbuild $projFile /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Prepare Artifact
       shell: pwsh
       run: |
         if (!(Test-Path "build_output")) { mkdir build_output }
-        # งมหาไฟล์ .exe และ .dll จากทุก bin/Release ที่เจอ
         Get-ChildItem -Path "**/bin/Release/" -Recurse -Include *.exe, *.dll, *.config | Copy-Item -Destination "build_output" -Force
         ls build_output
 
