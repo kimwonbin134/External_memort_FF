@@ -19,7 +19,7 @@ jobs:
       run: nuget restore  # ลบชื่อไฟล์ออก ให้มันหาเองอัตโนมัติ
 
     - name: Build Solution
-      run: msbuild /p:Configuration=Release /p:Platform="Any CPU" # ไม่ต้องใส่ชื่อไฟล์ .sln
+      run: msbuild External.csproj /p:Configuration=Release /p:Platform="Any CPU"
       
     - name: Prepare Artifact
       # ย้ายไฟล์ทั้งหมดไปไว้ในโฟลเดอร์เดียวเพื่อให้โหลดง่าย
