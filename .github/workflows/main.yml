@@ -1,39 +1,37 @@
-name: "CodeQL Analysis"
+name: Build EXE Release
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '21 18 * * 1'
+on: [push, workflow_dispatch]
 
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'csharp' ]
+  build:
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        # ใช้ build-mode: none เพื่อให้สแกนได้แม้จะหา DLL ไม่ครบ
-        build-mode: none 
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Restore NuGet Packages
+      run: nuget restore External_memort_FF.sln
+
+    - name: Build Solution
+      # สั่ง Build เป็น Release และให้ copy ไฟล์ที่เกี่ยวข้องออกมาทั้งหมด
+      run: msbuild External_memort_FF.sln /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Prepare Artifact
+      # ย้ายไฟล์ทั้งหมดไปไว้ในโฟลเดอร์เดียวเพื่อให้โหลดง่าย
+      run: |
+        mkdir build_output
+        copy bin\Release\*.exe build_output\
+        copy bin\Release\*.dll build_output\
+        copy bin\Release\*.config build_output\
+
+    - name: Upload EXE
+      uses: actions/upload-artifact@v4
       with:
-        category: "/language:${{matrix.language}}"
+        name: External-FF-Program
+        path: build_output/
