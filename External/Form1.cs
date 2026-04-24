@@ -141,16 +141,16 @@ namespace External
             if (!featureStates["FastSwitch"])
             {
                 // Fast Switch ON - Add your AOB values here
-                string search = ""; // Add your search AOB for Fast Switch
-                string replace = ""; // Add your replace AOB for Fast Switch
+                string search = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your search AOB for Fast Switch
+                string replace = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your replace AOB for Fast Switch
                 await PerformMemoryOperation(search, replace, "Fast Switch");
                 featureStates["FastSwitch"] = true;
             }
             else
             {
                 // Fast Switch OFF - Add your AOB values here
-                string search = ""; // Add your search AOB for turning OFF
-                string replace = ""; // Add your replace AOB for turning OFF
+                string search = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your search AOB for turning OFF
+                string replace = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your replace AOB for turning OFF
                 await PerformMemoryOperation(search, replace, "Fast Switch (OFF)");
                 featureStates["FastSwitch"] = false;
             }
@@ -161,16 +161,16 @@ namespace External
             if (!featureStates["GuestReset"])
             {
                 // Guest Reset ON - Add your AOB values here
-                string search = ""; // Add your search AOB for Guest Reset
-                string replace = ""; // Add your replace AOB for Guest Reset
+                string search = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your search AOB for Guest Reset
+                string replace = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your replace AOB for Guest Reset
                 await PerformMemoryOperation(search, replace, "Guest Reset");
                 featureStates["GuestReset"] = true;
             }
             else
             {
                 // Guest Reset OFF - Add your AOB values here
-                string search = ""; // Add your search AOB for turning OFF
-                string replace = ""; // Add your replace AOB for turning OFF
+                string search = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your search AOB for turning OFF
+                string replace = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your replace AOB for turning OFF
                 await PerformMemoryOperation(search, replace, "Guest Reset (OFF)");
                 featureStates["GuestReset"] = false;
             }
@@ -181,16 +181,16 @@ namespace External
             if (!featureStates["Aimbot"])
             {
                 // Aimbot ON - Add your AOB values here
-                string search = ""; // Add your search AOB for Aimbot
-                string replace = ""; // Add your replace AOB for Aimbot
+                string search = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your search AOB for Aimbot
+                string replace = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your replace AOB for Aimbot
                 await PerformMemoryOperation(search, replace, "Aimbot");
                 featureStates["Aimbot"] = true;
             }
             else
             {
                 // Aimbot OFF - Add your AOB values here
-                string search = ""; // Add your search AOB for turning OFF
-                string replace = ""; // Add your replace AOB for turning OFF
+                string search = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your search AOB for turning OFF
+                string replace = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your replace AOB for turning OFF
                 await PerformMemoryOperation(search, replace, "Aimbot (OFF)");
                 featureStates["Aimbot"] = false;
             }
@@ -201,16 +201,16 @@ namespace External
             if (!featureStates["BlackSky"])
             {
                 // Black Sky ON - Add your AOB values here
-                string search = ""; // Add your search AOB for Black Sky
-                string replace = ""; // Add your replace AOB for Black Sky
+                string search = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your search AOB for Black Sky
+                string replace = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your replace AOB for Black Sky
                 await PerformMemoryOperation(search, replace, "Black Sky");
                 featureStates["BlackSky"] = true;
             }
             else
             {
                 // Black Sky OFF - Add your AOB values here
-                string search = ""; // Add your search AOB for turning OFF
-                string replace = ""; // Add your replace AOB for turning OFF
+                string search = "40 02 2B 9B 3C 02 2B 9B 3C 02 2B 07 3D 00 00 00"; // Add your search AOB for turning OFF
+                string replace = "40 02 2B 07 3D 02 2B 07 3D 02 2B 07 3D 00 00 00 00 9B 6C F2"; // Add your replace AOB for turning OFF
                 await PerformMemoryOperation(search, replace, "Black Sky (OFF)");
                 featureStates["BlackSky"] = false;
             }
