@@ -25,13 +25,12 @@ jobs:
       run: nuget restore
 
     - name: Build Solution
-      # สั่งให้หาไฟล์ .csproj ตัวไหนก็ได้แล้วรัน Build เลย
       shell: pwsh
       run: |
         $projFile = (Get-ChildItem -Path . -Filter *.csproj -Recurse | Select-Object -First 1).FullName
-        echo "Building project: $projFile"
-        msbuild $projFile /p:Configuration=Release /p:Platform="Any CPU"
-
+        # แก้ตรง Platform เป็น "AnyCPU" (พิมพ์ติดกันตามใน .csproj)
+        msbuild $projFile /p:Configuration=Release /p:Platform="AnyCPU"
+        
     - name: Prepare Artifact
       shell: pwsh
       run: |
